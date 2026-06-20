@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для тебя ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#ffd6e7,#fff0f5);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+width:90%;
+max-width:500px;
+text-align:center;
+}
+
+h1{
+color:#ff4f87;
+margin-bottom:15px;
+}
+
+p{
+color:#555;
+margin-bottom:25px;
+line-height:1.5;
+}
+
+button{
+border:none;
+padding:14px 24px;
+border-radius:15px;
+cursor:pointer;
+font-size:16px;
+margin:8px;
+transition:.3s;
+}
+
+.yes{
+background:#ff4f87;
+color:white;
+}
+
+.yes:hover{
+transform:scale(1.05);
+}
+
+.no{
+background:#ececec;
+position:relative;
+}
+
+.option{
+display:block;
+width:100%;
+margin:12px 0;
+padding:16px;
+background:#fff7fa;
+border:2px solid #ffd3e2;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+}
+
+.option:hover{
+transform:scale(1.03);
+}
+
+.hidden{
+display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div id="step1">
+<h1>❤️ Привет</h1>
+<p>У меня к тебе есть один очень важный вопрос...</p>
+<button class="yes" onclick="nextStep(2)">Узнать вопрос</button>
+</div>
+
+<div id="step2" class="hidden">
+<h1>🥺 Пойдёшь со мной на свидание?</h1>
+<p id="funText">Выбирай честно 😌</p>
+
+<button class="yes" onclick="nextStep(3)">
+Да 🩷
+</button>
+
+<button id="noBtn" class="no">
+Нет 🙈
+</button>
+</div>
+
+<div id="step3" class="hidden">
+<h1>😳 Подожди...</h1>
+<p>Ты действительно сказал "Да"?<br><br>
+Я была готова, что скажешь "Нет", ахах 😅</p>
+
+<button class="yes" onclick="nextStep(4)">
+Да да да 😌
+</button>
+</div>
+
+<div id="step4" class="hidden">
+<h1>✨ Чем ты хочешь заняться?</h1>
+<p>Выбери то, что тебе в кайф</p>
+
+<div class="option" onclick="chooseDate('🎬 Кино')">
+🎬 Кино<br>
+<small>Попкорн приветствуется 🍿</small>
+</div>
+
+<div class="option" onclick="chooseDate('☕ Кафе')">
+☕ Кафе<br>
+<small>Поболтать обо всём</small>
+</div>
+
+<div class="option" onclick="chooseDate('🌳 Прогулка')">
+🌳 Прогулка<br>
+<small>Свежий воздух и хорошая компания</small>
+</div>
+</div>
+
+<div id="step5" class="hidden">
+<h1>🥹 Рада, что ты не отказался!</h1>
+
+<p id="finalText"></p>
+
+<p style="margin-top:20px">
+Теперь отвертеться уже не получится 😏❤️
+</p>
+</div>
+
+</div>
+
+<script>
+
+let noClicks = 0;
+
+const phrases = [
+"Ты уверен? 😏",
+"Подумай ещё раз 🤭",
+"Не-а, так не работает 😌",
+"Кажется, выбор очевиден ❤️",
+"Ладно, засчитываю это как 'Да' 😁"
+];
+
+function nextStep(step){
+
+document.querySelectorAll('.card > div').forEach(el=>{
+el.classList.add('hidden');
+});
+
+document.getElementById('step'+step).classList.remove('hidden');
+}
+
+const noBtn = document.getElementById('noBtn');
+
+noBtn.addEventListener('mouseover',()=>{
+
+noClicks++;
+
+document.getElementById('funText').innerText =
+phrases[Math.min(noClicks-1,phrases.length-1)];
+
+const maxX = window.innerWidth - 150;
+const maxY = window.innerHeight - 80;
+
+noBtn.style.position = 'fixed';
+noBtn.style.left = Math.random()*maxX+'px';
+noBtn.style.top = Math.random()*maxY+'px';
+
+if(noClicks >= 5){
+noBtn.innerText = 'Дааа 🩷';
+noBtn.classList.remove('no');
+noBtn.classList.add('yes');
+noBtn.onclick = ()=>nextStep(3);
+}
+});
+
+function chooseDate(choice){
+
+document.getElementById('finalText').innerHTML =
+'Отличный выбор: <b>'+choice+
+'</b><br><br>Мне уже нравится наше будущее свидание ✨';
+
+nextStep(5);
+}
+
+</script>
+
+</body>
+</html>
